@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const useFileContent = (fileContent) => {
-  const [formattedContent, setFormattedContent] = useState({});
+  const [formattedContent, setFormattedContent] = useState([]);
 
   useEffect(() => {
     if (fileContent !== "") {
@@ -14,12 +14,12 @@ export const useFileContent = (fileContent) => {
   const formatContent = (content) => {
     console.log(content);
     const separateValues = content.split("|");
-    const data = {};
+    const data = [];
     for (let i in separateValues) {
       separateValues[i] = separateValues[i].split(" ");
-      data[separateValues[i][0]] = Number(separateValues[i][1]);
+      data.push(separateValues[i]);
     }
-    setFormattedContent(data);
+    setFormattedContent([...data]);
   };
 
   return {
