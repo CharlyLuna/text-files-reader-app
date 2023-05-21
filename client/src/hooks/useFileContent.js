@@ -6,6 +6,8 @@ export const useFileContent = (fileContent) => {
   useEffect(() => {
     if (fileContent !== "") {
       formatContent(fileContent);
+    } else {
+      setFormattedContent([]);
     }
   }, [fileContent]);
 

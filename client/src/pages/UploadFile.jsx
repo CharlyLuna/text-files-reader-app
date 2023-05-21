@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFileContent } from "../hooks/useFileContent";
 
 export const UploadFile = () => {
@@ -8,23 +8,34 @@ export const UploadFile = () => {
   });
   const { formattedContent } = useFileContent(file.content);
   const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setError(null);
+    setSuccess(null);
+  }, [file]);
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
+    if (file?.type === "text/plain") {
+      const reader = new FileReader();
 
-    reader.onload = function (e) {
-      const fileContent = e.target.result;
+      reader.onload = function (e) {
+        const fileContent = e.target.result;
 
-      setFile({
-        name: file.name,
-        content: fileContent,
-      });
-    };
-    if (file) {
-      reader.readAsText(file);
+        setFile({
+          name: file.name,
+          content: fileContent,
+        });
+      };
+      if (file) {
+        reader.readAsText(file);
+      }
+    } else {
+      setError("The file must be a text file");
     }
   };
+  console.log(file);
 
   const handleFileUpload = () => {
     if (formattedContent.length > 0) {
@@ -36,8 +47,13 @@ export const UploadFile = () => {
         body: JSON.stringify({ name: file.name, content: formattedContent }),
       })
         .then((res) => res.json())
-        .then((data) => setSuccess(data.success))
+        .then((data) => {
+          setSuccess(data.success);
+          console.log(data);
+        })
         .catch(() => setSuccess(false));
+    } else {
+      setSuccess(false);
     }
   };
 
@@ -75,6 +91,11 @@ export const UploadFile = () => {
             <p>The file couldnt be uploaded</p>
           </div>
         ))}
+      {error && (
+        <div className='text-center text-red-500'>
+          <p>{error}</p>
+        </div>
+      )}
     </div>
   );
 };

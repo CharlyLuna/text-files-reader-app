@@ -19,6 +19,11 @@ export const Home = () => {
           Go to upload file page
         </button>
       </div>
+      <div className='flex flex-col items-center rounded-md justify-center bg-slate-100 w-[15vw]'>
+        <button onClick={() => navigate("/graphic")}>
+          Go to see the graphic representation of the files
+        </button>
+      </div>
     </div>
   );
 };
