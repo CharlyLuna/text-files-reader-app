@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import folderImg from "../assets/3d-folder-img.png";
 
 export const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className='flex flex-col gap-6 mt-8 items-center'>
       <h1>Hello there! Choose what you want to do</h1>
@@ -13,7 +15,9 @@ export const Home = () => {
             alt='Upload file image'
           />
         </div>
-        <button>Go to upload file page</button>
+        <button onClick={() => navigate("/upload")}>
+          Go to upload file page
+        </button>
       </div>
     </div>
   );

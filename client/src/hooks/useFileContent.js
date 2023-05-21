@@ -9,10 +9,7 @@ export const useFileContent = (fileContent) => {
     }
   }, [fileContent]);
 
-  console.log("File content>>", fileContent);
-
   const formatContent = (content) => {
-    console.log(content);
     const separateValues = content.split("|");
     const data = [];
     for (let i in separateValues) {

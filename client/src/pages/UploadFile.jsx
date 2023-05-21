@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useFileContent } from "../hooks/useFileContent";
-import folderImg from "../assets/3d-folder-img.png";
 
 export const UploadFile = () => {
   const [file, setFile] = useState({
@@ -8,6 +7,7 @@ export const UploadFile = () => {
     content: "",
   });
   const { formattedContent } = useFileContent(file.content);
+  const [success, setSuccess] = useState(null);
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -36,21 +36,13 @@ export const UploadFile = () => {
         body: JSON.stringify({ name: file.name, content: formattedContent }),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((data) => setSuccess(data.success))
+        .catch(() => setSuccess(false));
     }
   };
 
-  console.log("Formatted value>>", formattedContent);
-
   return (
     <div>
-      <div className='flex justify-center items-center'>
-        <img
-          className='w-[40vw] md:w-[30vw]'
-          src={folderImg}
-          alt='Folder image'
-        />
-      </div>
       <h1 className='text-center mb-8'>
         Select the file, we take care of the format ;D
       </h1>
@@ -58,16 +50,31 @@ export const UploadFile = () => {
         className='bg-gray-400 p-4 w-[90vw] sm:w-[50vw] text-center flex justify-center items-center m-auto mt-4
       '
       >
-        <input type='file' onChange={handleFileInputChange} />
+        <input
+          data-testid='file-input'
+          type='file'
+          onChange={handleFileInputChange}
+        />
       </div>
       <div className='text-center my-8'>
         <button
+          id='send-button'
           className='border border-black bg-slate-400 px-4 py-2'
           onClick={handleFileUpload}
         >
           Send file
         </button>
       </div>
+      {success !== null &&
+        (success === true ? (
+          <div className='text-center text-green-500'>
+            <p>File uploaded successfully</p>
+          </div>
+        ) : (
+          <div className='text-center text-red-500'>
+            <p>The file couldnt be uploaded</p>
+          </div>
+        ))}
     </div>
   );
 };
