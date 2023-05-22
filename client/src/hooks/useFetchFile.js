@@ -15,7 +15,10 @@ export const useFetchFile = () => {
         },
       });
       const { data } = await file.json();
-      setFileContent(data);
+      const fileContent = data.map((item) => {
+        return item.content;
+      });
+      setFileContent(fileContent);
     } catch (error) {
       console.log(error);
     }

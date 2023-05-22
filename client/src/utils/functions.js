@@ -3,16 +3,16 @@ export function calculateScoreAverages(arrays) {
 
   // Iterate through each array
   for (const array of arrays) {
-    // Destructure the score name and value from the array
-    const [score, value] = array;
-
-    if (scoreMap.has(score)) {
-      // If the score already exists in the Map, update the accumulated sum and count
-      const { sum, count } = scoreMap.get(score);
-      scoreMap.set(score, { sum: sum + parseInt(value), count: count + 1 });
-    } else {
-      // If the score doesn't exist in the Map, initialize it with the current value
-      scoreMap.set(score, { sum: parseInt(value), count: 1 });
+    // Iterate through each score-value pair in the array
+    for (const [score, value] of array) {
+      if (scoreMap.has(score)) {
+        // If the score already exists in the Map, update the accumulated sum and count
+        const { sum, count } = scoreMap.get(score);
+        scoreMap.set(score, { sum: sum + parseInt(value), count: count + 1 });
+      } else {
+        // If the score doesn't exist in the Map, initialize it with the current value
+        scoreMap.set(score, { sum: parseInt(value), count: 1 });
+      }
     }
   }
 
