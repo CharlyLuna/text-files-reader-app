@@ -35,7 +35,6 @@ export const UploadFile = () => {
       setError("The file must be a text file");
     }
   };
-  console.log(file);
 
   const handleFileUpload = () => {
     if (formattedContent.length > 0) {
@@ -49,7 +48,6 @@ export const UploadFile = () => {
         .then((res) => res.json())
         .then((data) => {
           setSuccess(data.success);
-          console.log(data);
         })
         .catch(() => setSuccess(false));
     } else {
@@ -59,7 +57,7 @@ export const UploadFile = () => {
 
   return (
     <div>
-      <h1 className='text-center mb-8'>
+      <h1 className='text-center mb-8 font-semibold text-lg md:text-2xl mt-8'>
         Select the file, we take care of the format ;D
       </h1>
       <div
@@ -75,7 +73,7 @@ export const UploadFile = () => {
       <div className='text-center my-8'>
         <button
           id='send-button'
-          className='border border-black bg-slate-400 px-4 py-2'
+          className='bg-slate-600 text-white px-6 py-2 rounded-md mt-2 text-sm'
           onClick={handleFileUpload}
         >
           Send file
